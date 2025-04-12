@@ -1,0 +1,11 @@
+
+.active{
+    background-color: rgb(12, 183, 235) !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: center;
+    
+}
+.chat_ui::-webkit-scrollbar {
+    display: none;
+}
