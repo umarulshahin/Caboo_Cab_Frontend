@@ -61,7 +61,7 @@ const User_header = ({setStatus}) => {
     </div>
 
     <div className="flex items-center px-8 space-x-4">
-    <Link to='/confirmation' className="text-white font-extrabold hidden sm:block pr-6">
+    <Link  className="text-white font-extrabold hidden sm:block pr-6">
         Help
       </Link>
       {/* Profile Section */}
