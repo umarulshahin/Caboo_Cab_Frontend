@@ -33,7 +33,6 @@ const useDriverWebSocket = () => {
     let token = null 
     if (rawtoken){
         token= JSON.parse(rawtoken)
-        console.log(token["access"],'driver token')
         
     }
 
@@ -50,8 +49,8 @@ const useDriverWebSocket = () => {
             // navigate("/")
             return
         }
-        // const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
-        const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
+        const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
+        // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
         // const ws = new WebSocket(`wss://backend.caboo.site/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
 
 
@@ -62,7 +61,6 @@ const useDriverWebSocket = () => {
         };
 
         const handleDecline = (user_data) => {
-            console.log('No, ride declined 1');
             clearTimeout(declineTimeout);
             setResponded(true);
             respondedRef.current = true;
@@ -82,7 +80,6 @@ const useDriverWebSocket = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(data,'yes driver side request reached ')
             
             if (data.type === "'pending ride'"){
                console.log('yes pending ride is working ',data)
@@ -99,8 +96,6 @@ const useDriverWebSocket = () => {
                     handleLocationRequest(ws,data.user_id);
                 }
             } else if (data.type === 'Riding_request') {
-                console.log("Ride request received");
-                console.log(data.user_data, 'user data');
 
                 setModalUserData(data.user_data);
                 setShowModal(true);
@@ -122,19 +117,14 @@ const useDriverWebSocket = () => {
                 setDeclineTimeout(timeout);
 
             }else if(data.type.trim() === "otp validation faild"){
-                console.log('yes working')
                 toast.error('OTP invalid try again .')
 
             }else if (data.type.trim() === 'OTP_success'){
-                console.log('yes otp validation is working')
                 
                 dispatch(addDriverOTPvalidation('OTP_success'))
-                console.log('after otp ')
 
             }else if (data.type === 'Payment verification'){
-                console.log(data.message.userRequest,'user request')
                 if(data.message.userRequest.offer ){
-                    console.log("yes verification is working")
 
                    dispatch(addApplyoffer(data.message.userRequest.offer))
                 }
@@ -150,7 +140,6 @@ const useDriverWebSocket = () => {
                 toast.warning("User canceled the trip. We apologize for the inconvenience.")
 
             }else if (data.type.trim() === "ride_accepted"){
-                console.log('ride acceptence')
                 dispatch(addDriverTripId(data.data['trip_id']))
             }else if (data.type.trim() === 'payment completed'){
                 dispatch(addDriverClearRide(null))
@@ -178,7 +167,6 @@ const useDriverWebSocket = () => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const { latitude, longitude, accuracy } = position.coords;
-                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}, Accuracy: ${accuracy} meters`);
                     setDriverlocation({lat:latitude,lng:longitude})
                     ws.send(JSON.stringify({
                         requestType: 'sendLocation',
@@ -203,21 +191,17 @@ const useDriverWebSocket = () => {
     
     const handleAcceptRide = async () => {
         
-        console.log('Yes, ride accepted');
         setResponded(true);
         respondedRef.current = true;
         setShowModal(false);
         if (declineTimeout) {
             clearTimeout(declineTimeout);
             setDeclineTimeout(null); 
-            console.log("yes it's working clear time out")
         }
     
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN && Driverlocation && modalUserData?.userRequest?.place_code?.location) {
             try {
-                const driverData = await handleDriverLocation(Driverlocation, modalUserData.userRequest.place_code.location);
-                console.log(driverData,'driver data')
-                
+                const driverData = await handleDriverLocation(Driverlocation, modalUserData.userRequest.place_code.location);                
                 
 
                 const ridedata={
@@ -253,7 +237,6 @@ const useDriverWebSocket = () => {
     
 
     const OTP_confirm= async(value)=>{
-           console.log("yes otp fucntion working")
            if(value){
             const data={
                 'otp' : value,
@@ -299,8 +282,6 @@ const useDriverWebSocket = () => {
         dispatch(addDriverClearRide(null))
         dispatch(addClearChat(null))
         
-        console.log(tripId,'trip id ')
-       console.log(typeof(tripId),'tripid type')
         socketRef.current.send(JSON.stringify({
             'drivertripcancel' : 'Driver want cancel this ride',
             trip_id:tripId
@@ -319,7 +300,6 @@ const useDriverWebSocket = () => {
 
         handleDecline: () => {
             if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-                console.log('No, ride declined 2');
                 setResponded(true);
                 respondedRef.current = true;
                 setShowModal(false);

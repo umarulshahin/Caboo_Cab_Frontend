@@ -1,6 +1,6 @@
 
-export const backendUrl = 'http://127.0.0.1:8001';
-// export const backendUrl = 'https://cabooserver.online';
+// export const backendUrl = 'http://127.0.0.1:8001';
+export const backendUrl = 'https://cabooserver.online';
 // export const backendUrl = 'https://backend.caboo.site';
 
 export const user_signup_url = backendUrl+'/Api/signup/';

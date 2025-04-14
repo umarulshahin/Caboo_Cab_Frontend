@@ -17,9 +17,7 @@ const useOnlinePayment = () => {
       }
 
     const showOnline = async(value)=>{
-     
-        console.log(value,"yes it's working")
-         
+              
          const res = await LoadScript();
          if (!res) {
           alert('Razorpay SDK failed to load. Are you online?');
@@ -29,7 +27,6 @@ const useOnlinePayment = () => {
         try{
           
           const data=value['amount']
-          console.log(value)
           const response = await UserAxios.post(Razorpay_url,data,{
             headers: {
               "Content-Type": "application/json",
@@ -53,7 +50,6 @@ const useOnlinePayment = () => {
               order_id: id,
               handler: function (response) {
   
-                console.log(response,'response')
                 if ('razorpay_order_id' in response){
                    sendMessage(value)
                 }
@@ -78,11 +74,11 @@ const useOnlinePayment = () => {
             
           
         }else if (response.status===400){
-            console.log(response.data['error'],'response')
+            console.error(response.data['error'],'response')
   
         }
         }catch(error){
-          console.log(error,'razorpay error try catch ')
+          console.error(error,'razorpay error try catch ')
           if (error.response.status ===400){
             toast.warning(error.response.data.error)
           }

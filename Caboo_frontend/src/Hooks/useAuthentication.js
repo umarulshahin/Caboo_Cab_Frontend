@@ -34,13 +34,11 @@ const useAuthentication = () => {
             });
 
             if(response.status===200){
-                console.log(response.data.success, "email validation");
 
                 const successMessage = response.data.success.trim().toLowerCase();
 
                 if (successMessage === "alredy email exist") {
                   
-                    console.log(response.data.email,"Handling 'alredy email exist'");
 
                     if(response.data.status==='Driver not approval'){
                         navigate("/waitingModal")
@@ -51,7 +49,6 @@ const useAuthentication = () => {
                         dispatch(addemail(response.data.email));
                         dispatch(addDriver_status(response.data.status));
                         dispatch(addDriver_data(response.data.data));
-                        console.log(role)
                         if(role==='Drive'){
                             navigate('/signin_selection', { state: { modal: 'OTP Driver' } });
 
@@ -81,7 +78,6 @@ const useAuthentication = () => {
                     console.log("No matching condition found for:", successMessage);
                 }
 
-                console.log(response.data.success, "yes outside");
             }
         }catch(error){
 
@@ -143,7 +139,8 @@ const useAuthentication = () => {
             
         }catch(error){
 
-            console.log(error,'otpverification ')
+            console.error(error,'otpverification ')
+            toast.warning('something went wrong, please try again later.')
         }
        
     }
@@ -153,7 +150,6 @@ const useAuthentication = () => {
      const Signup_validation=async(values,url)=>{
 
         try {
-           console.log(values)
            
             const response = await axios.post(url,values, {
 
@@ -167,9 +163,6 @@ const useAuthentication = () => {
 
                 if(response.data.success==="success"){
 
-
-
-                    console.log(response.data.data.role)
                     if(role==='Ride'){
 
                         const data={
@@ -181,7 +174,6 @@ const useAuthentication = () => {
 
                     }else{
 
-                        console.log(response.data)
                         dispatch(addDriver_data(response.data.data))
                         navigate('/vehicle_doc')
                     }
@@ -193,7 +185,7 @@ const useAuthentication = () => {
                 }
 
             }else if (response.status===400){
-                console.log(response.data, 'signup response');
+                console.error(response.data, 'signup response');
 
             }
 
@@ -218,10 +210,8 @@ const useAuthentication = () => {
           if (response.status === 200) {
 
             if (role === "admin") {
-              console.log(response.data.token)
               const token = response.data.token
               const value = jwtDecode(token.access);
-              console.log(value)
               if(value.role){
                 Cookies.set("adminTokens", JSON.stringify(token), { expires: 7 });
                 const value = jwtDecode(token.access);
@@ -236,7 +226,6 @@ const useAuthentication = () => {
     
             } else if( role === "Driver") {
 
-              console.log(response.data.token)
               const token = response.data.token
               Cookies.set("DriverTokens",JSON.stringify(token), { expires: 7 });
               const value = jwtDecode(token.access);
@@ -252,7 +241,6 @@ const useAuthentication = () => {
 
             }else{
 
-              console.log(response.data.token)
               const token = response.data.token
               Cookies.set("userTokens",JSON.stringify(token), { expires: 7 });
               const value = jwtDecode(token.access);
@@ -272,7 +260,7 @@ const useAuthentication = () => {
           if (error.response.data.detail === "No active account found with the given credentials" || error.response.data.non_field_errors[0] === "Invalid email or user not active.") {
             toast.warning("Your email and password do not match. Please try again");
           }
-          console.log(error, "Signin");
+          console.error(error, "Signin");
         }
       };
 
@@ -283,7 +271,6 @@ const useAuthentication = () => {
 
         try {
             const formData = new FormData();
-            console.log(values,'value')
             Object.keys(values).forEach(key => {
                 if (values[key] instanceof File) {
                     formData.append(key, values[key]);
@@ -298,7 +285,6 @@ const useAuthentication = () => {
                 }
             });
         
-            console.log(formData,'fromdata')
             const response = await axios.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -306,15 +292,13 @@ const useAuthentication = () => {
             });
         
             if (response.status === 201) {
-                console.log(response.data)
                 if (response.data.success === "Driver successfully created") {
 
-                        console.log(response.data);
                         toast.success("Congratulations! Your account has been successfully created")
                         navigate("/waitingModal")
 
                 } else {
-                    console.log(response.data.error)
+                    console.error(response.data.error)
                     
                 }
             } 
@@ -343,7 +327,6 @@ const useAuthentication = () => {
 
             if(data === "Vehicle Number already exists"){
 
-                console.log("yes working")
                 toast.error("Vehicle Number already exists")
                 return 
             }

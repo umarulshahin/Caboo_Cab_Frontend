@@ -31,7 +31,6 @@ export const WebSocketProvider = ({ children }) => {
 
   const refresh = async () => {
     try {
-      console.log("Refreshing token");
       const rawToken = Cookies.get("userTokens");
       const token = JSON.parse(rawToken);
       if (!token.refresh) {
@@ -42,7 +41,6 @@ export const WebSocketProvider = ({ children }) => {
       });
       if (response.status === 200) {
         const newToken = response.data;
-        console.log(newToken, 'New token received');
         Cookies.set("userTokens", JSON.stringify(newToken), { expires: 7 });
         setAccessToken(newToken.access);
         return newToken.access;
@@ -68,21 +66,18 @@ export const WebSocketProvider = ({ children }) => {
 
   const connectWebSocket = useCallback(() => {
     if (!user_id || !driver_id) {
-      console.log(user_id)
-      console.log(driver_id)
+
     
       console.log("Missing required data for WebSocket connection");
       setConnectionStatus("disconnected");
       return;
     }else if(!accessToken){
       const rawtoken = Cookies.get("userTokens")
-      console.log(rawtoken,'rawtoken')
       let token = null
       if(rawtoken){
           token = JSON.parse(rawtoken)
           setAccessToken(token)
       }else{
-        console.log("Token is missing ");
         setConnectionStatus("disconnected");
   
       }
@@ -94,10 +89,9 @@ export const WebSocketProvider = ({ children }) => {
     }
 
     const roomId = user_id;
-    console.log(`Attempting to connect WebSocket for room ${roomId}`);
 
-    // const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
-    const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
+    const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
+    // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
     // const ws = new WebSocket(`wss://backend.caboo.site/ws/chat/${roomId}/?token=${accessToken}`);
 
 
@@ -110,7 +104,6 @@ export const WebSocketProvider = ({ children }) => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log('Received message:', data);
       if (data.type.trim() === "chat_message") {
         dispatch(
           adduserMessage([
@@ -143,12 +136,11 @@ export const WebSocketProvider = ({ children }) => {
     };
 
     ws.onclose = async (event) => {
-      console.log(`WebSocket connection closed with code ${event.code}`);
       setConnectionStatus("disconnected");
       setSocket(null);
 
       if (event.code === 4001 || event.code === 1006) {
-        console.log("Attempting to refresh token and reconnect");
+        console.error("Attempting to refresh token and reconnect");
         try {
           const newToken = await refresh();
           if (newToken) {
@@ -163,7 +155,6 @@ export const WebSocketProvider = ({ children }) => {
           toast.error("Failed to refresh authentication. Please log in again.");
         }
       } else {
-        console.log("Scheduling reconnection attempt");
         reconnectTimeoutRef.current = setTimeout(connectWebSocket, 5000);
       }
     };
@@ -217,7 +208,6 @@ export const WebSocketProvider = ({ children }) => {
         JSON.stringify({type : 'sendMessge', message: value, connectId: driver_id, messageId })
       );
     } else {
-      console.log("WebSocket not open, attempting to reconnect");
       connectWebSocket();
     }
   }, [socket, driver_id, dispatch, connectWebSocket]);

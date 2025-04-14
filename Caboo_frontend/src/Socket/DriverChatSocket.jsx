@@ -27,7 +27,6 @@ export const DriverWebSocketProvider = ({ children }) => {
 
   const refresh = async () => {
     try {
-      console.log("Refreshing token");
       const rawToken = Cookies.get("DriverTokens")
       const token = JSON.parse(rawToken);
       if (!token.refresh) {
@@ -38,7 +37,6 @@ export const DriverWebSocketProvider = ({ children }) => {
       });
       if (response.status === 200) {
         const newToken = response.data;
-        console.log(newToken, 'New token received');
         Cookies.set("userTokens", JSON.stringify(newToken), { expires: 7 });
         setAccessToken(newToken.access);
         return newToken.access;
@@ -78,8 +76,8 @@ export const DriverWebSocketProvider = ({ children }) => {
     } 
 
     const roomId = driver_id;
-    // const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
-    const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
+    const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
+    // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
 
         // const ws = new WebSocket(`wss://backend.caboo.site/ws/chat/${roomId}/?token=${accessToken}`);
 
@@ -95,7 +93,6 @@ export const DriverWebSocketProvider = ({ children }) => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log('Received message:', data);
       if (data.type.trim() === "chat_message") {
 
         dispatch(
@@ -128,12 +125,11 @@ export const DriverWebSocketProvider = ({ children }) => {
     };
 
     ws.onclose = async (event) => {
-      console.log(`WebSocket connection closed with code ${event.code}`);
       setConnectionStatus("disconnected");
       setDriverSocket(null);
 
       if (event.code === 4001 || event.code === 1006) {
-        console.log("Attempting to refresh token and reconnect");
+        console.error("Attempting to refresh token and reconnect");
         try {
           const newToken = await refresh();
           if (newToken) {
@@ -189,7 +185,6 @@ export const DriverWebSocketProvider = ({ children }) => {
 
   const handleSendDriverMessage = useCallback((value) => {
 
-    console.log(value, 'send driver message handler');
     const messageId = Date.now().toString();
     const newSentMessage = {
       id: messageId,
@@ -201,11 +196,10 @@ export const DriverWebSocketProvider = ({ children }) => {
 
     if (value && driverSocket && driverSocket.readyState === WebSocket.OPEN) {
 
-      console.log('yues wokring')
   
       driverSocket.send(JSON.stringify({ type : 'sendMessge', message: value, connectId: user_id ,messageId}));
     }else{
-      console.log("WebSocket not open, attempting to reconnect");
+      console.error("WebSocket not open, attempting to reconnect");
       connectDriverWebSocket();    }
 
   },[driverSocket,user_id,dispatch, connectDriverWebSocket]);

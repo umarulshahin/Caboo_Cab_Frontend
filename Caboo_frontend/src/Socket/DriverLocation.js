@@ -36,15 +36,13 @@ const DriverLocation = () => {
                             const result = response.rows[0]?.elements[0];
                             
                             // Log result for debugging
-                            console.log('Distance Matrix result:', result);
     
                             if (result && result.status === 'OK') {
                                 const distance = result.distance;
                                 const duration = result.duration;
     
                                 // Log distance and duration for debugging
-                                console.log('Distance:', distance);
-                                console.log('Duration:', duration);
+                              
     
                                 if (distance && duration) {
                                     const distanceInKm = distance.value / 1000;

@@ -31,15 +31,12 @@ const useGetUser = () => {
 
       if (response.status === 200) {
 
-        console.log(response.data, "get user ");
         if (role === "admin") {
 
           dispatch(addadmin_data(response.data));
         } else if (role === 'driver') {
-          console.log("driver get data ")
           dispatch(addDriver_data(response.data));
         } else {
-          console.log('User get data ')
           dispatch(addUser(response.data));
         }
       }
@@ -76,7 +73,7 @@ const useGetUser = () => {
           toast.success("Image Update succesfully");
         }
       } catch (error) {
-        console.log(error.response.data);
+        console.error(error.response.data);
         if(error.response.data.detail=== 'Token is blacklisted'){
           if(role==='driver'){
   
@@ -88,7 +85,6 @@ const useGetUser = () => {
 
 
         }else{
-          console.log('yes working logout')
           dispatch(addUser(null))
           dispatch(addToken_data(null))
           Cookies.remove('userTokens')
@@ -127,7 +123,6 @@ const useGetUser = () => {
 
       if (response.status === 200) {
         if(role&&role==='driver'){
-          console.log(role)    
           Get_data(Driver_data_urls, email, "driver");
 
         }else{
@@ -137,7 +132,7 @@ const useGetUser = () => {
         toast.success("Profile update successfully");
       }
     } catch (error) {
-      console.log(error, "profile Update");
+      console.error(error, "profile Update");
       if(error.response.data.detail=== 'Token is blacklisted'){
         if(role==='driver'){
 
@@ -171,24 +166,21 @@ const useGetUser = () => {
   const paymentSuccess=async(data)=>{
 
      try{
-      console.log(data)
-      console.log(PaymentSuccess_url,'url')
+     
       const response = await UserAxios.post(PaymentSuccess_url,data,{
         headers:{
           "Content-Type": "application/json",
         },
       });
-      console.log(response)
       
       if (response.status===200){
-        console.log(response.data,'success data after payment')
         toast.success("Your wallet successfully recharged")
         await Get_data(user_data_url, null);
 
       }
 
      }catch(error){
-      console.log(error,'error payment success')
+      console.error(error,'error payment success')
      }
   }
 
@@ -203,8 +195,6 @@ const useGetUser = () => {
   }
 
   const showRazorpay= async(value)=>{
-
-      console.log(value,"yes it's working")
        
        const res = await LoadScript();
        if (!res) {
@@ -261,11 +251,11 @@ const useGetUser = () => {
           const rzp1 = new window.Razorpay(options);
           rzp1.open();  
       }else if (response.status===400){
-          console.log(response.data['error'],'response')
+          console.error(response.data['error'],'response')
 
       }
       }catch(error){
-        console.log(error,'razorpay error try catch ')
+        console.error(error,'razorpay error try catch ')
         if (error.response.status ===400){
           toast.warning(error.response.data.error)
         }
@@ -284,22 +274,19 @@ const useGetUser = () => {
        })
        if (response.status === 200){
         if(role==='trip'){
-            console.log(response.data,'usertrips')
             dispatch(addUserTrips(response.data))
         }else if(role==='wallet'){
-          console.log(response.data,'wallet respond')
           dispatch(addWalletDetails(response.data))
         }
       
        }
     }catch(error){
-      console.log(error,'user trips')
+      console.error(error,'user trips')
     }
   }
 
   const ReviewManagement= async (url,value)=>{
-         console.log(url,'url')
-         console.log(value,'value')
+         
          const formdata =new FormData()
          formdata.append('review',value)
     try{
@@ -310,7 +297,6 @@ const useGetUser = () => {
         }
       })
       if (response.status === 200){
-        console.log(response.data)
         navigate('/userhome')
         toast.success("Thank you! Your review has been submitted.")
 
@@ -318,7 +304,7 @@ const useGetUser = () => {
       }
 
     }catch(error){
-        console.log(error,'review hook error')
+        console.error(error,'review hook error')
     }
      
 

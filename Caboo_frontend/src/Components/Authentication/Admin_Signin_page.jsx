@@ -95,9 +95,9 @@ const Admin_signin_page = () => {
                         <div className="flex justify-center items-center">
                           <button
                             type="submit"
-                            className="px-10 py-2 bg-white text-black font-bold rounded-md"
+                            className="px-10 py-2 bg-white text-black hover:bg-gray-300 font-bold rounded-md"
                           >
-                            Continue
+                            Sign In
                           </button>
                         </div>
                       </Form>

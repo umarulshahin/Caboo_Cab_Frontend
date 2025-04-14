@@ -24,7 +24,6 @@ const useUserWebSocket = () => {
 
     useEffect(()=>{
         token = JSON.parse(rawtoken)
-        console.log(token.access,'user token')
     },[rawtoken])
         
     
@@ -38,13 +37,10 @@ const useUserWebSocket = () => {
 
         if (!user.user_id || !token )return ;
 
-        // const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${user.user_id}/?token=${token["access"]}`);
-        const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${user.user_id}/?token=${token["access"]}`);
+        const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${user.user_id}/?token=${token["access"]}`);
+        // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${user.user_id}/?token=${token["access"]}`);
         // const ws = new WebSocket(`wss://backend.caboo.site/ws/driverlocation/${user.user_id}/?token=${token["access"]}`);
 
-
-
-        console.log(ws);
         
         ws.onopen = () => {
             console.log('WebSocket connection established');
@@ -53,7 +49,6 @@ const useUserWebSocket = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log('Message received:', data);
             
             if (data.type === "block notification" ){
                 // dispatch(addClearUser(null))
@@ -64,20 +59,17 @@ const useUserWebSocket = () => {
             }else if (data.type==='ride_accepted'){
                
                 dispatch(addRideDriverdetails(data))
-                console.log(data.data.trip_id,"accept data")
 
                 dispatch(addTripId(data.data.trip_id))
                 navigate('/userRide')
 
             }else if (data.type.trim() === 'OTP_success'){
 
-                console.log('yes otp success working asdfasdfsad')
                 dispatch(addOTPvalidation('OTP_success'))
                 dispatch(addClearChat([]))
                 navigate('/userRide')
 
             }else if (data.type.trim() === 'Trip complete'){
-                console.log(data.message,"yes payment is working ")
                 dispatch(addUserCoupons(data.message))
                 navigate('/paymentModal')
 
@@ -98,7 +90,6 @@ const useUserWebSocket = () => {
                 toast.warning("Please complete your current ride before trying again.")
                 navigate('/userRide')
             }else if (data.type.trim() === 'User is already active as a driver'){
-                console.log('yes its working ')
                 toast.warning("The user is already active as a driver. Please change the driver status first.")
                 navigate('/userRide')
             }
@@ -123,7 +114,6 @@ const useUserWebSocket = () => {
     const sendMessage = (data) => {
         if (socket && socket.readyState === WebSocket.OPEN) {
             data['trip_id']=trip_id
-            console.log('Sending message:',data);
 
             socket.send(JSON.stringify({ userRequest: data }));
         } else {
@@ -132,13 +122,11 @@ const useUserWebSocket = () => {
     };
 
     const Canceltrip=()=>{
-         console.log('cancel socket is working')
          if (socket && socket.readyState === WebSocket.OPEN) {
 
             dispatch(addClearRide(null))
             dispatch(addClearChat(null))
 
-            console.log(trip_id,'Sending message:');
             const data={
                 'usertripcancel': 'user want cancel this trip',
                 'trip_id' :trip_id
@@ -154,7 +142,6 @@ const useUserWebSocket = () => {
 
     const OnlinePay = async(value)=>{
            
-        console.log(value,'value coming online pay')
         if (socket && socket.readyState === WebSocket.OPEN) {
   
             socket.send(JSON.stringify({paymentdetails:value}));

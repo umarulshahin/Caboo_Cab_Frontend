@@ -22,14 +22,12 @@ const useAdmin = () => {
           });
 
          if(response.status===200){
-            console.log(response.data,)
-            console.log(role)
+          
             if(role==="driver"){
               dispatch(addDriver_list(response.data))
               return
 
             }else if(role==="user"){
-                console.log('yes working user')
                 dispatch(addUsers_list(response.data))
                 return
 
@@ -52,7 +50,6 @@ const useAdmin = () => {
 
             if (response.status===200){
 
-                console.log(response.data,'user managment')
                 toast.success("status successfully updated")
                 return
             }
@@ -64,7 +61,6 @@ const useAdmin = () => {
 
     const GetTripdata=async(data)=>{
         try{
-            console.log(data,'data in get trips')
             const responds = await AdminAxios.get(Get_all_trips_url,{
                 params:data,
                 headers:{
@@ -73,20 +69,21 @@ const useAdmin = () => {
                 }
             })
             if (responds.status===200){
-                console.log(responds.data)
                 dispatch(addAllTrips(responds.data))
             }
             
         }catch(error){
-            console.log(error,'get trip data')
-        }
+            console.error(error,'get trip data')
+            if(error.response.status===401){
+                toast.warning('Your session has expired. Please log in again to continue.')
+            }
+         toast.warning('something went wrong, please try again later.')
     }
-
+    }
     const CouponManage= async (url,data)=>{
       
         try{
-            console.log(url,'url ')
-            console.log(data,'data')
+         
             const response = await AdminAxios.post(url,data,{
                 
                 headers:{
@@ -95,12 +92,10 @@ const useAdmin = () => {
             })
 
             if (response.status === 201){
-                console.log(response.data,'coupon manage')
                 toast.success('Coupon Created successfully')
             }
-            console.log(response,'response')
         }catch(error){
-            console.log(error,'couponManage')
+            console.error(error,'couponManage')
         }
     }
     const Get_Coupon=async()=>{
@@ -117,7 +112,7 @@ const useAdmin = () => {
             }
 
         }catch(error){
-            console.log(error,'get coupons')
+            console.error(error,'get coupons')
         }
     }
 
@@ -130,12 +125,11 @@ const useAdmin = () => {
                 }
             })
             if(response.status===200){
-                console.log(response.data,'coupon update')
                 toast.success("Coupon updated successfully")
             }
         }catch(error){
            
-            console.log(error,'coupon update error')
+            console.error(error,'coupon update error')
         }
     }
 

@@ -30,7 +30,6 @@ const useDriver = () => {
     }
     
     const DriverTrips=async(data)=>{
-        console.log(data['id'],'data')
         try{
            const response = await DriverAxios.get(Trip_driver_Data_url,{
             params: { id: data['id'] },
@@ -41,14 +40,13 @@ const useDriver = () => {
            if (response.status === 200){
 
             if (response.data != 'Trips not availabel'){
-                console.log(response.data,'usertrips')
                 dispatch(addDriverTrips(response.data))
             }
             
 
            }
         }catch(error){
-          console.log(error,'user trips')
+          console.error(error,'user trips')
         }
       }
     return { Driver_status,DriverTrips }

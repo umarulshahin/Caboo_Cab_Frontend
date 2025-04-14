@@ -18,8 +18,9 @@ import Signin_selection from "./Pages/Signin_selection";
 import Admin_Signin from "./Pages/Authentication/Admin_Signin";
 import "./App.css";
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+import ErrorPage from "./Components/ErrorPage.jsx";
+import Spinner from "./Components/Spinner.jsx";
 
-// ✅ Lazy-loaded components
 const Signup = lazy(() => import("./Pages/Authentication/Signup"));
 const OtpForm = lazy(() => import("./Components/Authentication/OtpFrom"));
 const Vehicle_doc = lazy(() => import("./Pages/Authentication/Vehicle_doc"));
@@ -54,7 +55,7 @@ const App = () => {
           <Toaster position="bottom-center" richColors />
           <WebSocketProvider>
             <DriverWebSocketProvider>
-              <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+              <Suspense fallback={<Spinner />}>
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<LandingPage />} />
@@ -90,6 +91,8 @@ const App = () => {
                   <Route path="/paymentconfirm" element={<Driver_PrivatRoute><PaymentConfirmModal /></Driver_PrivatRoute>} />
                   <Route path="/tripdetails" element={<Driver_PrivatRoute><Tripdetails /></Driver_PrivatRoute>} />
                   <Route path="/driver_header" element={<Driver_PrivatRoute><Driver_Header /></Driver_PrivatRoute>} />
+
+                  <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </Suspense>
             </DriverWebSocketProvider>
