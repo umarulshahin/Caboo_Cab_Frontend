@@ -13,7 +13,6 @@ const Ride = () => {
   const [trip,settrip] = useState(true)
   return (
     <div>
-      <Driver_Header />
 
       <div className="relative flex items-center mt-40 ml-10  w-96 bg-white text-black rounded-lg overflow-hidden border border-black">
       <label
@@ -78,7 +77,7 @@ const Ride = () => {
     )}
     </div>
 
-      <Footer />
+  
     </div>
   );
 };

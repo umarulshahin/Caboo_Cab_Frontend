@@ -101,6 +101,7 @@ const useGetUser = () => {
           toast.warning("Your account has been blocked. Please contact our customer service.")
           navigate("/")
         }else{
+          console.error('error response data:', error.response.data);
           toast.warning(error);
 
         }

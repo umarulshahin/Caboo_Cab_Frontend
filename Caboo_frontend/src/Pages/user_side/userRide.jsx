@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 import { useState } from "react";
 import empty from '../../assets/empty.png'
 import RideHistory from '../../Components/user_side/RideHistory'
-// import UserChatSocket from '../../Socket/UserChatSocker'
 
 const UserRide = () => {
   const ridedriver = useSelector((state) => state.ride_data.rideDriverdetails);
@@ -16,10 +15,8 @@ const UserRide = () => {
   const [selectedTab, setSelectedTab] = useState('Current Ride');
   const [ride,setride] = useState(true)
   
-  // UserChatSocket() 
   return (
     <div className='min-h-screen'>
-      <User_header />
       <div className="container body flex flex-row items-start ml-10 mt-36 ">
       <div className="tabs flex space-x-4 p-3 bg-black rounded-md">
         <input
@@ -91,8 +88,6 @@ const UserRide = () => {
  }   
   </div>
   
-
-      <Footer />
     </div>
   );
 };

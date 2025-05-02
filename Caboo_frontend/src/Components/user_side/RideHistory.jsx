@@ -118,7 +118,7 @@ const RideHistory = () => {
                                         {data.dateTime}
                                     </td>
                                     <td className="py-2 px-4 text-left">
-                                        <button onClick={() => navigate('/ridedetails', { state: { rides: data } })} className="bg-black font-bold text-white px-5 py-1 rounded hover:bg-gray-600">
+                                        <button onClick={() => navigate('/userhome/ridedetails', { state: { rides: data } })} className="bg-black font-bold text-white px-5 py-1 rounded hover:bg-gray-600">
                                             More
                                         </button>
                                     </td>

@@ -17,7 +17,7 @@ const PaymentConfirmModal = () => {
     if (balance > applyoffer.max_amount){
       balance = applyoffer.max_amount
     }
-    // setOfferamount(balance)
+    
   }
 
   

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDriverWebSocket } from '../../Socket/DriverChatSocket';
+import { useSelector } from 'react-redux';
 
 const Driver_chat = ({ setShowchat }) => {
   const driverMessage = useSelector((state) => state.chat_data.driverMessage);
-  const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
   const messagesContainerRef = useRef(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);

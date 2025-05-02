@@ -2,8 +2,6 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaDownload, FaArrowLeft } from "react-icons/fa";
 import { backendUrl } from "../../Utils/Constanse";
-import Footer from "../Footer";
-import User_header from "./User_header";
 import location from "../../assets/pickup.png";
 import time from "../../assets/time.png";
 import pay from "../../assets/pay.png";
@@ -28,7 +26,6 @@ const RideDetails = () => {
   }
   return (
     <div className="min-h-screen flex flex-col font-inter">
-      <User_header />
 
       <div className="flex justify-center items-center py-10 mt-20 bg-gray-200">
         <div className="w-full max-w-4xl mx-4 bg-white rounded-lg shadow-xl p-8">
@@ -187,7 +184,6 @@ const RideDetails = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

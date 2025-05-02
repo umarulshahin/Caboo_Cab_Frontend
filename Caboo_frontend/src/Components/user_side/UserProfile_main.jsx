@@ -66,7 +66,7 @@ const UserProfile_main = () => {
   console.log(profile_img, "profile image ");
 
   return (
-    <div className="flex w-screen min-h-screen mt-20 bg-gray-100 justify-center items-center">
+    <div className="flex w-screen min-h-screen  bg-gray-100 justify-center items-center">
       <div className="p-12 flex flex-col items-center bg-white shadow-lg rounded-lg w-full max-w-2xl">
         <h1 className="text-4xl text-gray-800 font-bold mb-8">Account Info</h1>
         <div className="relative mb-8">

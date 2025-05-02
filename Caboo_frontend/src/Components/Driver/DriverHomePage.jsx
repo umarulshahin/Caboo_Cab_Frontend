@@ -4,26 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 const DriverHomePage = (trip_data) => {
   const {count, cancel, amount, currentMonth,lastweekdata,monthlydata} = trip_data.trip_data || {};
  
-  // Sample data for monthly rides
-  const monthlyRidesData = [
-    { month: 'Jan', rides: 45 },
-    { month: 'Feb', rides: 52 },
-    { month: 'Mar', rides: 48 },
-    { month: 'Apr', rides: 70 },
-    { month: 'May', rides: 61 },
-    { month: 'Jun', rides: 85 },
-  ];
-
-  // Sample data for daily earnings
-  const dailyEarningsData = [
-    { day: 'Mon', earnings: 120 },
-    { day: 'Tue', earnings: 150 },
-    { day: 'Wed', earnings: 180 },
-    { day: 'Thu', earnings: 200 },
-    { day: 'Fri', earnings: 250 },
-    { day: 'Sat', earnings: 300 },
-    { day: 'Sun', earnings: 280 },
-  ];
 
   return (
     <div className="pt-24">

@@ -9,6 +9,7 @@ import { addClearChat } from '../Redux/Chatslice';
 import Cookies from "js-cookie"
 import { addApplyoffer, addClearDriver } from '../Redux/DriverSlice';
 import DriverLocation from './DriverLocation';
+import { addTripId } from '../Redux/RideSlice';
 
 const libraries = ["places"];
 const apiKey = import.meta.env.VITE_google_map_api_key;
@@ -49,8 +50,8 @@ const useDriverWebSocket = () => {
             // navigate("/")
             return
         }
-        const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
-        // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
+        // const ws = new WebSocket(`wss://cabooserver.online/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
+        const ws = new WebSocket(`ws://127.0.0.1:8001/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
         // const ws = new WebSocket(`wss://backend.caboo.site/ws/driverlocation/${driver.user_id}/?token=${token["access"]}`);
 
 
@@ -120,15 +121,23 @@ const useDriverWebSocket = () => {
                 toast.error('OTP invalid try again .')
 
             }else if (data.type.trim() === 'OTP_success'){
+                                
+                const trip_id = data?.trip_id
                 
+                if (trip_id !== trip_id){
+                    
+                    dispatch(addTripId(trip_id))
+                }
+            
                 dispatch(addDriverOTPvalidation('OTP_success'))
+              
 
             }else if (data.type === 'Payment verification'){
                 if(data.message.userRequest.offer ){
 
                    dispatch(addApplyoffer(data.message.userRequest.offer))
                 }
-                navigate('/paymentconfirm')
+                navigate('/driver_home/paymentconfirm')
                 ws.close()
                 
             }else if (data.type.trim() === "Trip cancel"){
@@ -141,6 +150,7 @@ const useDriverWebSocket = () => {
 
             }else if (data.type.trim() === "ride_accepted"){
                 dispatch(addDriverTripId(data.data['trip_id']))
+
             }else if (data.type.trim() === 'payment completed'){
                 dispatch(addDriverClearRide(null))
                 navigate('/driver_home')
@@ -224,7 +234,7 @@ const useDriverWebSocket = () => {
                     ride_data : modalUserData
                 }));
 
-                navigate('/ride')
+                navigate('/driver_home/ride')
                
             } catch (error) {
                 console.error('Error handling driver location:', error);
@@ -256,7 +266,7 @@ const useDriverWebSocket = () => {
         socketRef.current.send(JSON.stringify({
             requestType: 'ride complete',
             ride_complete: 'success',
-            trip_id:tripId,
+            trip_id:528,
             applyoffer:applyoffer
         }))
     }

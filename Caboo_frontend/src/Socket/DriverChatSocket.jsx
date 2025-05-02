@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { adddriverMessage, addUpdateDriverChat, adduserMessage } from '../Redux/Chatslice';
 import { toast } from 'sonner';
 import Cookies from "js-cookie"
-import { json, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { backendUrl } from '../Utils/Constanse';
-import { addDriver_data, addDriver_token } from '../Redux/DriverSlice';
 
 
 const DriverWebSocketContext = createContext({
@@ -76,8 +75,8 @@ export const DriverWebSocketProvider = ({ children }) => {
     } 
 
     const roomId = driver_id;
-    const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
-    // const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
+    // const ws = new WebSocket(`wss://cabooserver.online/ws/chat/${roomId}/?token=${accessToken}`);
+    const ws = new WebSocket(`ws://127.0.0.1:8001/ws/chat/${roomId}/?token=${accessToken}`);
 
         // const ws = new WebSocket(`wss://backend.caboo.site/ws/chat/${roomId}/?token=${accessToken}`);
 

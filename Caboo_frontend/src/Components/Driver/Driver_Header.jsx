@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import logo from "../../assets/Logo.png";
 import avatar from "../../assets/profile_img.png";
-import { addClearDriver, addDriver_data, addDriver_token } from "../../Redux/DriverSlice";
+import { addClearDriver} from "../../Redux/DriverSlice";
 
 import { backendUrl, Driver_status_url } from "../../Utils/Constanse"; 
 import useDriver from "../../Hooks/useDriver";
@@ -70,13 +70,13 @@ const Driver_Header = () => {
           <Link to="/driver_home" className="text-white font-extrabold hover:text-yellow-500">
               Home
             </Link>
-            <Link to="/ride" className="text-white font-extrabold hover:text-yellow-500">
+            <Link to="/driver_home/ride" className="text-white font-extrabold hover:text-yellow-500">
               Ride
             </Link>
-            <Link to="/about" className="text-white font-extrabold hover:text-yellow-500">
+            <Link to="/driver_home/about" className="text-white font-extrabold hover:text-yellow-500">
               About
             </Link>
-            <Link to="/help" className="text-white font-extrabold hover:text-yellow-500">
+            <Link to="/driver_home/help" className="text-white font-extrabold hover:text-yellow-500">
               Help
             </Link>
           </div>
@@ -101,7 +101,7 @@ const Driver_Header = () => {
                 <div className="relative">
                   <div className="absolute right-0 flex flex-col items-center mt-8 w-48 bg-black font-bold text-white rounded-lg shadow-lg">
                     <Link
-                      to="/driver_profile"
+                      to="/driver_home/driver_profile"
                       className="block px-4 py-2 w-full text-center hover:bg-gray-700 transition duration-150 ease-in-out"
                     >
                       Profile

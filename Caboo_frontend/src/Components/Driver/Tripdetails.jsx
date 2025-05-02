@@ -1,6 +1,5 @@
 import React from "react";
-import Driver_Header from "./Driver_Header";
-import Footer from "../Footer";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaDownload, FaArrowLeft } from "react-icons/fa";
 import { backendUrl } from "../../Utils/Constanse";
@@ -30,8 +29,7 @@ const Tripdetails = () => {
   }
 
   return (
-    <div>
-      <Driver_Header />
+  
       <div className="flex justify-center  items-center my-28">
         <div className="w-3/4 border-2 bg-blue-100 shadow-xl  p-5 rounded-lg">
           <div className="bg-gray-100 border-b">
@@ -171,8 +169,7 @@ const Tripdetails = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
+    
   );
 };
 

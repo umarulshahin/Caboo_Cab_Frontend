@@ -3,12 +3,12 @@ import logo from "../../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import avatar from "../../assets/profile_img.png"
-import { addClearUser, addToken_data, addUser } from "../../Redux/UserSlice";
+import { addClearUser} from "../../Redux/UserSlice";
 import { backendUrl } from "../../Utils/Constanse";
 import Cookies from "js-cookie"
 import useUserWebSocket from "../../Socket/Socket";
 
-const User_header = ({setStatus}) => {
+const User_header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch=useDispatch()
@@ -30,20 +30,15 @@ const User_header = ({setStatus}) => {
     }
     
   },[data])
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleLogout=()=>{
-
+  
     dispatch(addClearUser(null))
     Cookies.remove('userTokens')
-    localStorage.removeItem('status')
+   
     navigate("/")
   }
-   
-  const handleComponent=(value)=>{
-    setStatus(value)
-    setDropdownOpen(false)
-  }
+
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-black">
@@ -54,9 +49,9 @@ const User_header = ({setStatus}) => {
     
       </Link>
       <div className="hidden sm:flex sm:space-x-8 pl-20">
-      <button onClick={()=>setStatus('home')} className="text-white font-extrabold hidden sm:block  ">Home</button>
+      <Link to="/userhome" onClick={()=>setDropdownOpen(false)} className="text-white  font-extrabold hidden sm:block  ">Home</Link>
 
-       <Link to='/userRide' className="text-white font-extrabold hidden sm:block  ">Ride</Link>
+       <Link to='/userhome/userRide' onClick={()=>setDropdownOpen(false)} className="text-white font-extrabold hidden sm:block  ">Ride</Link>
       </div>
     </div>
 
@@ -70,13 +65,13 @@ const User_header = ({setStatus}) => {
         src={profile ? `${backendUrl}${profile}` : avatar}
         alt="Profile"
         className="h-8 w-8 rounded-full object-cover cursor-pointer"
-        onClick={toggleDropdown}
+        onClick={()=>setDropdownOpen(!dropdownOpen)}
         onError={(e) => {
           console.error("Error loading image:", e);
-          e.target.src = avatar; // Fallback to avatar if image fails to load
+          e.target.src = avatar; 
         }}
       />
-          <span className="text-white font-bold cursor-pointer" onClick={toggleDropdown}>
+          <span className="text-white font-bold cursor-pointer" onClick={()=>setDropdownOpen(!dropdownOpen)}>
             {username}
           </span>
         
@@ -84,9 +79,9 @@ const User_header = ({setStatus}) => {
           {dropdownOpen && (
             <div className="absolute flex flex-col items-center   right-0 mt-52 w-48 font-bold bg-black  text-white rounded-sm shadow-lg">
               <button></button>
-              <button onClick={()=>handleComponent('profile')}  className="block px-4 w-full py-2 hover:bg-gray-600">Profile</button>
-              <button onClick={()=>handleComponent('wallet')} className="block w-full  px-4 py-2  hover:bg-gray-600">Wallet</button>
-              <button className="block px-4 py-2 w-full hover:bg-gray-600">Settings</button>
+              <Link to='/userhome/userprofile' onClick={()=>setDropdownOpen(false)} className="block px-4 w-full text-center py-2 hover:bg-gray-600">Profile</Link>
+              <Link to='/userhome/userwallet' onClick={()=>setDropdownOpen(false)} className="block w-full  px-4 text-center py-2  hover:bg-gray-600">Wallet</Link>
+              <button onClick={()=>setDropdownOpen} className="block px-4 py-2 w-full hover:bg-gray-600">Settings</button>
               <button onClick={handleLogout}  className="block  w-full px-4 py-2 bg-red-600 hover:bg-gray-600">Logout</button>
             </div>
           )}
@@ -119,7 +114,6 @@ const User_header = ({setStatus}) => {
       <div className="w-full block sm:hidden">
         <div className="flex flex-col items-end space-y-2 pt-4">
           
-          <Link className="text-white font-extrabold">About</Link>
           <Link className="text-white font-extrabold">Help</Link>
         </div>
       </div>

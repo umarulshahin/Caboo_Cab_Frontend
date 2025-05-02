@@ -5,7 +5,7 @@ import {
   Marker,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { toast } from "sonner";
 import useDriverWebSocket from "../../Socket/DriverSocket";
 

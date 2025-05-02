@@ -101,7 +101,7 @@ const TripHistory = () => {
                   <td className="py-2 px-4 text-left">
                     <button
                       onClick={() =>
-                        navigate("/tripdetails", { state: { trips: data } })
+                        navigate("/driver_home/tripdetails", { state: { trips: data } })
                       }
                       className="bg-black text-white px-4 py-1 rounded hover:bg-gray-600"
                     >

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Driver_Header from "../../Components/Driver/Driver_Header";
 import Footer from "../../Components/Footer";
-import useGetUser from "../../Hooks/useGetUser";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import DriverHomePage from "../../Components/Driver/DriverHomePage";
@@ -12,7 +11,6 @@ const Driver_home = () => {
   const { DriverTrips } = useDriver();
   const driver_token = useSelector((state) => state.driver_data.driver_token);
   const trips = useSelector((state) => state.driver_data.driverTrips);
-  const driver = useSelector((state) => state.driver_data.driver_data);
   const [trip_data, setTripdata] = useState(null);
 
   useEffect(() => {
@@ -143,15 +141,10 @@ const Driver_home = () => {
 
   return (
     <div>
-      <div>
-        <Driver_Header />
-      </div>
       <div className="flex-grow bg-black h-screen">
         <DriverHomePage trip_data={trip_data} />
       </div>
-      <div>
-        <Footer />
-      </div>
+     
     </div>
   );
 };

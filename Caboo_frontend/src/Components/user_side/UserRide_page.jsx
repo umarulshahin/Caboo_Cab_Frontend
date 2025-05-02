@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import MapComponent from "../../Pages/user_side/Map";
 import { backendUrl } from "../../Utils/Constanse";
 import pickup from "../../assets/pickup.png";
 import dropoff from "../../assets/dropoff.png";
-import money from "../../assets/money.png";
 import time from "../../assets/time.png";
 import distancee from "../../assets/distance.png";
 import useUserWebSocket from "../../Socket/Socket";

@@ -26,13 +26,16 @@ const OtpForm = lazy(() => import("./Components/Authentication/OtpFrom"));
 const Vehicle_doc = lazy(() => import("./Pages/Authentication/Vehicle_doc"));
 const WaitingModal = lazy(() => import("./Components/Driver/WaitingModal"));
 
-const UserHome = lazy(() => import("./Pages/user_side/UserHome"));
-const UserProfile = lazy(() => import("./Pages/user_side/UserProfile"));
+const UserMain = lazy(()=> import("./Pages/user_side/UserMain.jsx"));
+const UserHome = lazy(() => import("./Components/user_side/UserHome_main.jsx"));
+const UserProfile = lazy(() => import("./Components/user_side/UserProfile_main.jsx"));
 const UserRide = lazy(() => import("./Pages/user_side/userRide"));
 const PaymentModal = lazy(() => import("./Components/user_side/PaymentModal"));
 const RideDetails = lazy(() => import("./Components/user_side/RideDetails"));
 const Confirmation = lazy(() => import("./Components/user_side/Confirmation"));
 const User_header = lazy(() => import("./Components/user_side/User_header"));
+const UserWallet = lazy(()=> import("./Components/user_side/UserWallet"));
+
 
 const Admin_home = lazy(() => import("./Pages/Admin/Admin_home"));
 const Documents = lazy(() => import("./Pages/Admin/Documents"));
@@ -40,6 +43,7 @@ const TripListing = lazy(() => import("./Components/Admin/TripListing"));
 const TripMore = lazy(() => import("./Components/Admin/TripMore"));
 const Coupons = lazy(() => import("./Components/Admin/Coupons"));
 
+const DriverMain = lazy(()=> import("./Pages/Driver/DriverMain.jsx"))
 const Driver_home = lazy(() => import("./Pages/Driver/Driver_home"));
 const Driver_profile = lazy(() => import("./Pages/Driver/Driver_profile"));
 const Ride = lazy(() => import("./Pages/Driver/Ride"));
@@ -69,14 +73,17 @@ const App = () => {
                   <Route path="/waitingModal" element={<WaitingModal />} />
 
                   {/* User Routes */}
-                  <Route path="/userhome" element={<PrivatRoute_user><UserHome /></PrivatRoute_user>} />
-                  <Route path="/userprofile" element={<PrivatRoute_user><UserProfile /></PrivatRoute_user>} />
-                  <Route path="/userRide" element={<PrivatRoute_user><UserRide /></PrivatRoute_user>} />
-                  <Route path="/paymentModal" element={<PrivatRoute_user><PaymentModal /></PrivatRoute_user>} />
-                  <Route path="/ridedetails" element={<PrivatRoute_user><RideDetails /></PrivatRoute_user>} />
-                  <Route path="/confirmation" element={<PrivatRoute_user><Confirmation /></PrivatRoute_user>} />
-                  <Route path="/userheader" element={<PrivatRoute_user><User_header /></PrivatRoute_user>} />
+                  <Route path="/userhome" element={<PrivatRoute_user><UserMain/></PrivatRoute_user>} >
+                    <Route index element={<UserHome />} />
+                    <Route path="/userhome/userprofile" element={<UserProfile />} />
+                    <Route path="/userhome/userRide" element={<UserRide />} />
+                    <Route path="/userhome/paymentModal" element={<PaymentModal />} />
+                    <Route path="/userhome/ridedetails" element={<RideDetails />} />
+                    <Route path="/userhome/confirmation" element={<Confirmation />} />
+                    <Route path="/userhome/userheader" element={<User_header />} />
+                    <Route path="/userhome/userwallet" element={<UserWallet />} />
 
+                  </Route>
                   {/* Admin Routes */}
                   <Route path="/admin_home" element={<AdminPrivatRoute><Admin_home /></AdminPrivatRoute>} />
                   <Route path="/Documents" element={<AdminPrivatRoute><Documents /></AdminPrivatRoute>} />
@@ -85,12 +92,14 @@ const App = () => {
                   <Route path="/coupons" element={<AdminPrivatRoute><Coupons /></AdminPrivatRoute>} />
 
                   {/* Driver Routes */}
-                  <Route path="/driver_home" element={<Driver_PrivatRoute><Driver_home /></Driver_PrivatRoute>} />
-                  <Route path="/driver_profile" element={<Driver_PrivatRoute><Driver_profile /></Driver_PrivatRoute>} />
-                  <Route path="/ride" element={<Driver_PrivatRoute><Ride /></Driver_PrivatRoute>} />
-                  <Route path="/paymentconfirm" element={<Driver_PrivatRoute><PaymentConfirmModal /></Driver_PrivatRoute>} />
-                  <Route path="/tripdetails" element={<Driver_PrivatRoute><Tripdetails /></Driver_PrivatRoute>} />
-                  <Route path="/driver_header" element={<Driver_PrivatRoute><Driver_Header /></Driver_PrivatRoute>} />
+                  <Route path="/driver_home" element={<Driver_PrivatRoute><DriverMain /></Driver_PrivatRoute>} >
+                  <Route index element={<Driver_home />} />
+                  <Route path="/driver_home/driver_profile" element={<Driver_PrivatRoute><Driver_profile /></Driver_PrivatRoute>} />
+                  <Route path="/driver_home/ride" element={<Driver_PrivatRoute><Ride /></Driver_PrivatRoute>} />
+                  <Route path="/driver_home/paymentconfirm" element={<Driver_PrivatRoute><PaymentConfirmModal /></Driver_PrivatRoute>} />
+                  <Route path="/driver_home/tripdetails" element={<Driver_PrivatRoute><Tripdetails /></Driver_PrivatRoute>} />
+                  <Route path="/driver_home/driver_header" element={<Driver_PrivatRoute><Driver_Header /></Driver_PrivatRoute>} />
+                  </Route>
 
                   <Route path="*" element={<ErrorPage />} />
                 </Routes>
